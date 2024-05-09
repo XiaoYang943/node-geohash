@@ -51,9 +51,8 @@ var SIGFIG_HASH_LENGTH = [0, 5, 7, 8, 11, 12, 13, 15, 16, 17, 18];
 /**
  * Encode
  *
- * Create a Geohash out of a latitude and longitude that is
- * `numberOfChars` long.
- *
+ * 经纬度转GeoHash字符串
+ * 第三个参数是可选的，指定哈希字符串的长度，这会影响 geohash 的精度
  * @param {Number|String} latitude
  * @param {Number|String} longitude
  * @param {Number} numberOfChars
@@ -163,7 +162,7 @@ var encode_int = function (latitude, longitude, bitDepth) {
 /**
  * Decode Bounding Box
  *
- * Decode hashString into a bound box matches it. Data returned in a four-element array: [minlat, minlon, maxlat, maxlon]
+ * GeoHash字符串转BBox: [minlat, minlon, maxlat, maxlon]
  * @param {String} hash_string
  * @returns {Array}
  */
@@ -252,8 +251,7 @@ function get_bit(bits, position) {
 /**
  * Decode
  *
- * Decode a hash string into pair of latitude and longitude. A javascript object is returned with keys `latitude`,
- * `longitude` and `error`.
+ * GeoHash字符串转经纬度
  * @param {String} hashString
  * @returns {Object}
  */
@@ -289,10 +287,10 @@ var decode_int = function (hash_int, bitDepth) {
 /**
  * Neighbor
  *
- * Find neighbor of a geohash string in certain direction. Direction is a two-element array, i.e. [1,0] means north, [-1,-1] means southwest.
- * direction [lat, lon], i.e.
- * [1,0] - north
- * [1,1] - northeast
+ * 在特定方向上查找GeoHash字符串的最近的点的GeoHash字符串
+ * 方向：
+ * [1,0]表示北
+ * [-1，-1]表示西南
  * ...
  * @param {String} hashString
  * @param {Array} Direction as a 2D normalized vector.
@@ -333,10 +331,11 @@ var neighbor_int = function (hash_int, direction, bitDepth) {
 /**
  * Neighbors
  *
- * Returns all neighbors' hashstrings clockwise from north around to northwest
+ * 查找GeoHash字符串的八邻域[n， ne， e， se， s， sw， w， nw]
  * 7 0 1
  * 6 x 2
  * 5 4 3
+ * 此方法比在所有方向上多次运行 geohash.neighbor 方法更有效
  * @param {String} hash_string
  * @returns {encoded neighborHashList|Array}
  */
@@ -426,6 +425,8 @@ var neighbors_int = function(hash_int, bitDepth){
  * Bounding Boxes
  *
  * Return all the hashString between minLat, minLon, maxLat, maxLon in numberOfChars
+ * 获取BBox内的所有哈希字符串
+ * 例如。显示地图可见范围内的所有点
  * @param {Number} minLat
  * @param {Number} minLon
  * @param {Number} maxLat

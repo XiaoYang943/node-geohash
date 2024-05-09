@@ -4,6 +4,9 @@ var test = require('assert');
 var longitude = 112.5584;
 var latitude = 37.8324;
 
+/**
+ * 经纬度转GeoHash字符串
+ */
 exports.testEncodeBasic = function (test) {
   var hashString = geohash.encode(37.8324, 112.5584);
   test.equal(hashString, 'ww8p1r4t8');
@@ -12,27 +15,35 @@ exports.testEncodeBasic = function (test) {
   test.equal(hashString, 'wte');
   test.done();
 };
-
+/**
+ * 经纬度转GeoHash整数
+ */
 exports.testIntEncodeBasic = function (test) {
   var hashStringUInt = geohash.encode_int(37.8324, 112.5584, 52);
   test.equal(hashStringUInt, 4064984913515641);
   test.done();
 };
-
+/**
+ * GeoHash字符串转经纬度
+ */
 exports.testDecodeBasic = function (test) {
   var latLon = geohash.decode('ww8p1r4t8');
   test.ok(Math.abs(37.8324 - latLon.latitude) < 0.0001);
   test.ok(Math.abs(112.5584 - latLon.longitude) < 0.0001);
   test.done();
 };
-
+/**
+ * GeoHash整数转经纬度
+ */
 exports.testDecodeIntBasic = function (test) {
   var latLonUInt = geohash.decode_int(4064984913515641);
   test.ok(Math.abs(37.8324 - latLonUInt.latitude) < 0.0001, "(37.8324 - "+latLonUInt.latitude+" was >= 0.0001");
   test.ok(Math.abs(112.5584 - latLonUInt.longitude) < 0.0001, "(112.5584 - "+latLonUInt.longitude+" was >= 0.0001");
   test.done();
 };
-
+/**
+ * 公共前缀
+ */
 exports.teshEncodeAutoBasic = function (test) {
   //Simple Auto Test
   test.throws(function(){
@@ -82,6 +93,9 @@ exports.testEncodeAuto = function (test) {
   test.done();
 };
 
+/**
+ * GeoHash字符串，最近邻查询
+ */
 exports.testNeighbor = function (test) {
   var north = geohash.neighbor('dqcjq', [1, 0]);
   test.equal(north, 'dqcjw');
@@ -101,6 +115,9 @@ exports.testNeighbor = function (test) {
   test.done();
 };
 
+/**
+ * GeoHash整数，最近邻查询
+ */
 exports.testNeighborInt = function (test) {
   var north = geohash.neighbor_int(1702789509, [1, 0], 32);
   test.equal(north, 1702789520);
@@ -110,6 +127,9 @@ exports.testNeighborInt = function (test) {
   test.done();
 };
 
+/**
+ * GeoHash字符串，八邻域查询
+ */
 exports.testNeighbors = function (test) {
   var neighbors = geohash.neighbors('dqcjq');
   var neighbor_test = ['dqcjw','dqcjx','dqcjr','dqcjp','dqcjn','dqcjj','dqcjm','dqcjt'];
@@ -135,6 +155,9 @@ exports.testNeighbors = function (test) {
   test.done();
 };
 
+/**
+ * GeoHash整数，八邻域查询
+ */
 exports.testNeighborsInt = function (test) {
   var neighbors = geohash.neighbors_int(1702789509, 32);
   var neighbor_test = [ 1702789520,1702789522,1702789511,1702789510,1702789508,1702789422,1702789423,1702789434 ];
@@ -152,6 +175,9 @@ exports.testNeighborsInt = function (test) {
   test.done();
 };
 
+/**
+ * 获取BBox内所有点的GeoHash字符串
+ */
 exports.testBBoxes = function (test) {
   var bboxes = geohash.bboxes(30, 120, 30.0001, 120.0001, 8);
   test.equal(bboxes[bboxes.length - 1], geohash.encode(30.0001, 120.0001, 8));
@@ -159,6 +185,9 @@ exports.testBBoxes = function (test) {
   test.done();
 };
 
+/**
+ * 获取BBox内所有点的GeoHash整数
+ */
 exports.testBBoxesInt = function (test) {
   var bboxes = geohash.bboxes_int(30, 120, 30.0001, 120.0001, 50);
   test.equal(bboxes[bboxes.length - 1], geohash.encode_int(30.0001, 120.0001, 50));
