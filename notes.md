@@ -1,5 +1,6 @@
 ## GeoHash
 - GeoHash是一种空间索引，它将地理位置编码为一个由字母和数字组成的字符串或一个纯数字整数。是一种降维的思想，将二维的数据转化为一维的数据
+- GeoHash属于空间填充曲线中的Z阶曲线(Z-order curve)的实际应用
 ### 特点
 - 每一个GeoHash字符串代表了某一矩形区域
   - 这个矩形区域内所有的点都共享相同的GeoHash字符串
@@ -75,7 +76,10 @@ Base 32	0	1	2	3	4	5	6	7	8	9	b	c	d	e	f	g
 Base 32	h	j	k	m	n	p	q	r	s	t	u	v	w	x	y	z
 ## 参考
 - [wiki/Geohash](https://en.wikipedia.org/wiki/Geohash)
+- [在线转换](http://geohash.org/)
 - [GeoHash 技术原理及应用实战](https://zhuanlan.zhihu.com/p/645078866)
 - [GeoHash核心原理解析](https://www.cnblogs.com/LBSer/p/3310455.html)
+- [高效的空间索引算法——Geohash 和 Google S2](https://blog.csdn.net/AndersonHuang/article/details/134273121)
 ### 开源库
 - [node-geohash](https://github.com/sunng87/node-geohash)
+- [可视化GeoHash](https://github.com/missinglink/leaflet-spatial-prefix-tree)
